@@ -98,6 +98,9 @@ function expenseAdd(newExpense) {
       // Adicionando o item a lista
       expenseList.append(expenseItem);
 
+      // limpando o input com uma funçao 
+      formClear();
+
       // chamando a função que atualiza o total de despesas
       updateTotals();
 
@@ -168,3 +171,14 @@ expenseList.addEventListener("click", function(event) {
    // chamando a função para re-calcular o total
    updateTotals();
 })
+
+// resetando os inputs depois de adicionar um item na lista
+function formClear() {
+   // limpa o conteudo dos inputs
+   expense.value = "";
+   category.value = "";
+   amount.value = "";
+
+   // coloca o foco no primeiro input
+   expense.focus();
+}
