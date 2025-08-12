@@ -6,7 +6,8 @@ const category = document.getElementById("category"); // categoria da despesa
 
 // Elementos da lista
 const expenseList = document.querySelector("ul"); // Lista de despesas
-const expenseQuantity = document.querySelector("aside header p span"); // Pegando o elemento de total de despesas
+const expenseQuantity = document.querySelector("aside header p span"); //elemento de total de despesas
+const expensesTotal = document.querySelector("aside header h2"); // Elemento de valor total de despesas
 
 // Formatando o valor do input
 amount.oninput = () => {
@@ -111,7 +112,42 @@ function updateTotals() {
    try {
       const items = expenseList.children; // pegando o total de itens na lista
 
-      expenseQuantity.textContent = (`${items.length} ${items.length > 1 ? "despesas" : "despesa"}`)
+      expenseQuantity.textContent = (`${items.length} ${items.length > 1 ? "despesas" : "despesa"}`); // alterando o conteudo do html
+
+      // capturando o total do valor das despesas
+      let total = 0;
+
+      // passando por cada item da lista para calcular o total
+      for(let item = 0; item < items.length; item++) {
+         const itemAmount = items[item].querySelector(".expense-amount"); // captuando o dado
+
+         let value = itemAmount.textContent.replace(/[^\d,]/g, "").replace(",", "."); //tratando para ser número
+
+         // convertendo para numero float
+         value = parseFloat(value);
+
+         // Verificando se ele é valido
+         if(isNaN(value)) {
+            return alert("ão foi possível calular o total, o valor não parece ser um número");
+         }
+
+         // somando o total
+         total += Number(value);
+      }
+
+      // exibindo o total no HTML
+      // Criando o simbolo de real
+      const symbolBRL = document.createElement("small");
+      symbolBRL.textContent = "R$";
+
+      // formatando o valor total
+      total = formatCurrencyBRL(total).toUpperCase().replace("R$", "");
+
+      // resetando os dados do html do elemento
+      expensesTotal.innerHTML = "";
+
+      // Adicionando os novos dados
+      expensesTotal.append(symbolBRL, total);
    } catch (error) {
       console.log(error);
       alert("Um erro ocorreu ao atualizar o total de despesas");
