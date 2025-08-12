@@ -153,3 +153,18 @@ function updateTotals() {
       alert("Um erro ocorreu ao atualizar o total de despesas");
    }
 }
+
+// Removendo o item ao clicar no remover
+// capturando o vento de click no icone
+expenseList.addEventListener("click", function(event) {
+   if(event.target.classList.contains("remove-icon")) {
+      // obetendo li pai do elemento clicado
+      const item = event.target.closest(".expense");
+
+      // remove o item da lista
+      item.remove();
+   }
+
+   // chamando a função para re-calcular o total
+   updateTotals();
+})
